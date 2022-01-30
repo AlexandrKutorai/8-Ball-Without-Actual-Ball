@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     fileprivate func getAnswer() {
         NetworkService.getMagic { [weak self] result in
             guard let self = self else {return}
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 switch result {
                 case.success(let model):
                     self.tetxLabel.text = model?.magic.answer
