@@ -9,7 +9,7 @@ import Foundation
 
 class NetworkService {
     
-    class func getMagic(completion: @escaping (Result <Model?, Error>) -> Void) {
+    static func getMagic(completion: @escaping (Result <Model?, Error>) -> Void) {
         
         let urlString = "https://8ball.delegator.com/magic/JSON/how_are_you"
         

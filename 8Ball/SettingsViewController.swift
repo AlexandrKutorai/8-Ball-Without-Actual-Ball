@@ -19,7 +19,6 @@ class SettingsViewController: UIViewController {
         
     }
     
-    
     @IBAction func saveButtonTap(_ sender: UIButton) {
         
         guard let textAnsw = answerTextField.text else {return}

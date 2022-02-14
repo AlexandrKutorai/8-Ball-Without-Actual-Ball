@@ -12,7 +12,12 @@ class ViewController: UIViewController {
     
     private let toSetting = "toSetting"
     
-    private var arrayAnswers = [String]()
+    private var arrayAnswers: [String] = [] {
+        didSet {
+            saveAnswer(arrayAnswers)
+        }
+    }
+    
     
     @IBOutlet weak var tetxLabel: UILabel!
     
@@ -20,10 +25,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         becomeFirstResponder()
-        
     }
     
-    fileprivate func getAnswer() {
+    private func getAnswer() {
         NetworkService.getMagic { [weak self] result in
             guard let self = self else {return}
             DispatchQueue.main.async {
@@ -31,7 +35,7 @@ class ViewController: UIViewController {
                 case.success(let model):
                     self.tetxLabel.text = model?.magic.answer
                 case.failure(_):
-                    self.tetxLabel.text = self.arrayAnswers.randomAnswer()
+                    self.tetxLabel.text = self.loadAnswer().randomAnswer()
                 }
                 
             }
@@ -60,7 +64,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func saveAnswer(_ answer: [String]) {
+        UserDefaults.standard.set(arrayAnswers, forKey: "answer")
+    }
+    
+    func loadAnswer() -> [String] {
+        var returnArray: [String] = []
+        
+        if let array = UserDefaults.standard.object(forKey: "answer") as? [String] {
+            returnArray = array
+        }
+        return returnArray
+    
+    }
 }
+
 
 extension Array {
     func randomAnswer() -> Element? {
